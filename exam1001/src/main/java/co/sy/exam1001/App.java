@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class App {
 	private static int[] arr = { 7, 9, 3, 6, 1, 4, 2, 5, 8, 10 };
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 //		selectionSort();
 //		toPrint();
 //		System.out.println("================================");
