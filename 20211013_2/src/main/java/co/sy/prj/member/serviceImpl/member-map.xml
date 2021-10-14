@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.sy.prj.member.service.MemberMapper">
+	<select id="memberList"
+			resultType="co.sy.prj.member.service.MemberVO">
+		SELECT * 
+		FROM unionmember
+	</select>
+	
+	<select id="memberSelect"
+			parameterType="co.sy.prj.member.service.MemberVO"
+			resultType="co.sy.prj.member.service.MemberVO">
+		SELECT * 
+		FROM unionmember where id = #{Id}
+		<!-- select * from A where B = #{C} 에서
+		     A = Table명과 일치. B = Column명과 일치. C = MemberVO에 있는 필드명과 일치. -->
+	</select>
+	
+	<select id="memberName"
+			parameterType="String"
+			resultType="String">
+		SELECT name
+		FROM unionmember
+		WHERE id = #{Id}
+	</select>
+	
+	<select id="loginCheck"
+			resultType="co.sy.prj.member.service.MemberVO">
+		SELECT name, author
+		FROM unionmember
+		WHERE id = #{Id} AND password = #{Password}
+	</select>
+	<!--  -->
+	<insert id="memberInsert" 
+			parameterType="co.sy.prj.member.service.MemberVO">
+		<!--  INSERT INTO member(id, name, password, tel, address)
+		VALUES(#{Id}, #{Name}, #{Password}, #{Tel}, #{Address}) -->
+		<if test="author == 'PROFESSOR'">
+      insert into professor
+      </if>
+      <if test="author != 'PROFESSOR'">
+      insert into member
+      </if>
+      values(#{id}, #{name}, #{password}, #{tel}, #{address}, #{author})
+	</insert>
+	
+	<update id="memberUpdate"
+			parameterType="co.sy.prj.member.service.MemberVO">
+		UPDATE member 
+		SET name = #{Name}, password = #{Password}, tel = #{tel, jdbcType=VARCHAR},
+		           address = #{Address, jdbcType=VARCHAR}, author = #{Author, jdbcType=VARCHAR}
+		 address = #{Address, jdbcType=VARCHAR}, author = #{Author, jdbcType=VARCHAR}
+        WHERE id = #{Id}
+	</update>
+	
+	<delete id="memberDelete"
+			parameterType="co.sy.prj.member.service.MemberVO">
+		DELETE FROM member
+		WHERE id = #{Id}
+	</delete>
+</mapper>
